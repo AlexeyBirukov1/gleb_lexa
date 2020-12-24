@@ -203,7 +203,7 @@ class MyWidget(QMainWindow, Ui_MainWindow):
 
                             circles[i][x] += speed[i][x]
                         pygame.draw.circle(screen2, (ORANGE), circles[i], r)
-                        pygame.draw.rect(screen, (ORANGE), (sp1, y_movement1, 10, 100))
+                        pygame.draw.rect(screen, (PINK), (sp1, y_movement1, 10, 100))
                         pygame.draw.rect(screen, (ORANGE), (sp2, y_movement2, 10, 100))
                     screen.blit(screen2, (0, 0))
 
