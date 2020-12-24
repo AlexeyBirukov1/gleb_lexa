@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel,
 from d import Ui_MainWindow
 all_sprites = pygame.sprite.Group()
 sprite = pygame.sprite.Sprite()
-sprite.image = pygame.image.load('sp/paddle.png')
+sprite.image = pygame.image.load('sp/paddle_big.png')
 sprite.rect = sprite.image.get_rect()
 all_sprites.add(sprite)
 
@@ -38,8 +38,6 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                 screen2 = pygame.display.set_mode(size)
                 running = True
                 circles.append(list((400, 300)))
-                pygame.draw.line(screen, (ORANGE), (0, 200), (0, 260), width=25)
-                pygame.draw.line(screen, (ORANGE), (800, 200), (800, 260), width=25)
                 y_movement1 = 267.5
                 y_movement2 = 267.5
                 x_velocity = 300
