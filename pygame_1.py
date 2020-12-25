@@ -1,10 +1,5 @@
-import os
-import sys
+import time
 import pygame
-import copy
-from PyQt5.QtGui import QPixmap, QPalette, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QPushButton, QLineEdit, \
-    QPlainTextEdit, QMessageBox, QFileDialog, QComboBox
 
 from d import Ui_MainWindow
 all_sprites = pygame.sprite.Group()
@@ -24,10 +19,10 @@ all_sprites2.add(sprite2)
 
 
 bg = pygame.image.load("sp/backgroung.png")
-bg2 = pygame.image.load("sp/menu.png")
+bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
+       pygame.image.load("sp/menu_2.png")]
 
 def menu():
-    circles = []
     if __name__ == '__main__':
         pygame.init()
         pygame.display.set_caption('ШАРЫ')
@@ -35,12 +30,15 @@ def menu():
         running = True
         clock = pygame.time.Clock()
         fps = 100
-
+        c = 0
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     running = False
-            screen.blit(bg2, (0, 0))
+            c = c % 4
+            screen.blit(bg2[c], (0, 0))
+            time.sleep(0.5)
+            c += 1
             clock.tick(fps)
             pygame.display.flip()
         main()
@@ -56,6 +54,7 @@ def main():
         clock = pygame.time.Clock()
         fps = 100
         sprite.rect.y = 520
+        sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
 
