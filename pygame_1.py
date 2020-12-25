@@ -21,6 +21,7 @@ all_sprites2.add(sprite2)
 bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
+bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
 
 def menu():
     if __name__ == '__main__':
@@ -41,7 +42,31 @@ def menu():
             c += 1
             clock.tick(fps)
             pygame.display.flip()
-        main()
+        main_1()
+
+
+def main_1():
+    if __name__ == '__main__':
+        pygame.init()
+        pygame.display.set_caption('ШАРЫ')
+        screen = pygame.display.set_mode((700, 525))
+        running = True
+        clock = pygame.time.Clock()
+        fps = 100
+        c = 0
+        c1 = 0
+        while running:
+            if c1 > 2:
+                running = False
+            c = c % 3
+            screen.blit(bg3[c], (0, 0))
+            time.sleep(0.5)
+            c += 1
+            c1 += 1
+            print(c1)
+            clock.tick(fps)
+            pygame.display.flip()
+    main()
 
 def main():
     circles = []
@@ -74,7 +99,9 @@ def main():
                 dx *= -1
             if sprite2.rect.x == sprite.rect.x and sprite2.rect.y == 550:
                 dy *= -1
+
             # ------------------------------------------
+
             if key[pygame.K_RIGHT]:
                 sprite.rect.x = sprite.rect.x + 2
             if key[pygame.K_LEFT]:
