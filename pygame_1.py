@@ -8,10 +8,20 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel,
 
 from d import Ui_MainWindow
 all_sprites = pygame.sprite.Group()
+all_sprites2 = pygame.sprite.Group()
+
 sprite = pygame.sprite.Sprite()
+sprite2 = pygame.sprite.Sprite()
+
 sprite.image = pygame.image.load('sp/paddle_big.png')
+sprite2.image1 = pygame.image.load('sp/ball.png')
+
 sprite.rect = sprite.image.get_rect()
+sprite2.rect = sprite2.image1.get_rect()
+
 all_sprites.add(sprite)
+all_sprites2.add(sprite2)
+
 
 class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -22,35 +32,21 @@ class MyWidget(QMainWindow, Ui_MainWindow):
 
     def select(self):
         def main():
-            WHITE = (255, 255, 255)
-            PINK = (230, 50, 230)
-            ORANGE = (255, 150, 100)
-            clock = pygame.time.Clock()
             circles = []
-            speed = []
-
-            r = 10
             if __name__ == '__main__':
                 pygame.init()
-                size = width, height = 800, 600
                 pygame.display.set_caption('ШАРЫ')
-                screen = pygame.display.set_mode(size)
-                screen2 = pygame.display.set_mode(size)
-                running = True
+
+                screen = pygame.display.set_mode((800, 600))
                 circles.append(list((400, 300)))
-                y_movement1 = 267.5
-                y_movement2 = 267.5
-                x_velocity = 300
-                y_velocity = 300
-                gy = 25
-                sp2 = 765
-                sp1 = 35
-                MYEVENTTYPE = pygame.USEREVENT
-                pygame.time.set_timer(MYEVENTTYPE, 100)
                 running = True
+
                 clock = pygame.time.Clock()
                 fps = 100
+
                 sprite.rect.y = 550
+                sprite2.rect.y = 250
+
                 while running:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -61,7 +57,10 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                     if key[pygame.K_LEFT]:
                         sprite.rect.x = sprite.rect.x - 2
                     screen.blit(self.bg, (0, 0))
+
                     all_sprites.draw(screen)
+                    # all_sprites2.draw(screen)
+
                     clock.tick(fps)
                     pygame.display.flip()
 
