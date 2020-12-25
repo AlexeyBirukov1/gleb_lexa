@@ -14,10 +14,10 @@ sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
 
 sprite.image = pygame.image.load('sp/paddle_big.png')
-sprite2.image1 = pygame.image.load('sp/ball.png')
+sprite2.image = pygame.image.load('sp/ball.png')
 
 sprite.rect = sprite.image.get_rect()
-sprite2.rect = sprite2.image1.get_rect()
+sprite2.rect = sprite2.image.get_rect()
 
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
@@ -57,10 +57,11 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                     if key[pygame.K_LEFT]:
                         sprite.rect.x = sprite.rect.x - 2
                     screen.blit(self.bg, (0, 0))
-
-                    all_sprites.draw(screen)
-                    # all_sprites2.draw(screen)
-
+                    try:
+                        all_sprites.draw(screen)
+                        all_sprites2.draw(screen)
+                    except Exception as e:
+                        print(e)
                     clock.tick(fps)
                     pygame.display.flip()
 
