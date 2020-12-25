@@ -1,90 +1,46 @@
-from random import randint
-import pygame as pg
+import pygame
 import sys
 
-W = 400
-H = 400
-WHITE = (255, 255, 255)
+size = width, height = 800, 600
+black = 0, 0, 0
 
 
-class Car(pg.sprite.Sprite):
-    def __init__(self, x, filename):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(
-            filename).convert_alpha()
-        self.rect = self.image.get_rect(
-            center=(x, 0))
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode(size)
+    ball_image = pygame.image.load("sp/ball.png")
+    ball_rect = ball_image.get_rect()
+    ball_rect.x = 101
+    ball_rect.y = 101
+    game_over = False
+    dx = 2
+    dy = 2
+    platform_x = 250
+    platform_y = 500
+    move_right = False
+    move_left = False
+
+    while not game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+        screen.fill(black)
+        pygame.draw.rect(screen, (255, 255, 255), (platform_x, platform_y, 150, 20))
+        screen.blit(ball_image, ball_rect)
+        ball_rect.x += dx
+        ball_rect.y += dy
+        if ball_rect.y > 500 or ball_rect.y < 0:
+            dy *= -1
+        if ball_rect.x > 700 or ball_rect.x < 0:
+            dx *= -1
+        # ------------------------------------------
+        if ball_rect.y > platform_y - 110 and ball_rect.x > platform_x and ball_rect.x < platform_x + 150:
+            dy *= -1
+        if move_left:
+            platform_x -= 1
+        pygame.display.flip()
+        pygame.time.wait(10)
 
 
-sc = pg.display.set_mode((W, H))
-
-# координата x будет случайна
-car1 = Car(randint(1, W), 'car1.png')
-
-while 1:
-    for i in pg.event.get():
-        if i.type == pg.QUIT:
-            sys.exit()
-
-    sc.fill(WHITE)
-    sc.blit(car1.image, car1.rect)
-    pg.display.update()
-    pg.time.delay(20)
-
-    # машинка ездит сверху вниз
-    if car1.rect.y < H:
-        car1.rect.y += 2
-    else:
-        car1.rect.y = 0
-
-
-class Car(pg.sprite.Sprite):
-    def __init__(self, x, filename):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(
-            filename).convert_alpha()
-        self.rect = self.image.get_rect(
-            center=(x, 0))
-
-    def update(self):
-        if self.rect.y < H:
-            self.rect.y += 2
-        else:
-            self.rect.y = 0
-
-
-sc = pg.display.set_mode((W, H))
-
-# координата x будет случайна
-car1 = Car(randint(1, W), 'car1.png')
-
-while 1:
-    for i in pg.event.get():
-        if i.type == pg.QUIT:
-            sys.exit()
-
-    sc.fill(WHITE)
-    sc.blit(car1.image, car1.rect)
-    pg.display.update()
-    pg.time.delay(20)
-
-    car1.update()
-car1 = Car(randint(1, W), 'car1.png')
-car2 = Car(randint(1, W), 'car2.png')
-car3 = Car(randint(1, W), 'car3.png')
-
-while 1:
-    for i in pg.event.get():
-        if i.type == pg.QUIT:
-            sys.exit()
-
-    sc.fill(WHITE)
-    sc.blit(car1.image, car1.rect)
-    sc.blit(car2.image, car2.rect)
-    sc.blit(car3.image, car3.rect)
-    pg.display.update()
-    pg.time.delay(20)
-
-    car1.update()
-    car2.update()
-    car3.update()
+if __name__ == '__main__':
+    main()

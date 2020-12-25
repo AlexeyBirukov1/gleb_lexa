@@ -44,14 +44,27 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                 clock = pygame.time.Clock()
                 fps = 100
 
-                sprite.rect.y = 550
-                sprite2.rect.y = 250
+                sprite.rect.y = 520
+                sprite2.rect.y = 300
+                sprite2.rect.x = 400
+
+                dx = 2
+                dy = 2
 
                 while running:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             running = False
                     key = pygame.key.get_pressed()
+                    sprite2.rect.x += dx
+                    sprite2.rect.y += dy
+                    if sprite2.rect.y > 525 or sprite2.rect.y < 0:
+                        dy *= -1
+                    if sprite2.rect.x > 725 or sprite2.rect.x < 0:
+                        dx *= -1
+                    if sprite2.rect.x == sprite.rect.x and sprite2.rect.y == 550:
+                        dy *= -1
+                    # ------------------------------------------
                     if key[pygame.K_RIGHT]:
                         sprite.rect.x = sprite.rect.x + 2
                     if key[pygame.K_LEFT]:
