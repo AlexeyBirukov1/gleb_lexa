@@ -93,6 +93,7 @@ def main():
             key = pygame.key.get_pressed()
             sprite2.rect.x += dx
             sprite2.rect.y += dy
+            print()
             if sprite2.rect.y > 555:
                 sprite2.rect.y = 300
                 sprite2.rect.x = 400
