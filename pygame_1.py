@@ -108,7 +108,7 @@ def main():
                 sprite.rect.x = 649
 
             # ------------------------------------------
-
+            o = 1
             if key[pygame.K_RIGHT]:
                 sprite.rect.x = sprite.rect.x + 2
             if key[pygame.K_LEFT]:
