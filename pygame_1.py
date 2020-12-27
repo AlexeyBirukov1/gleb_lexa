@@ -60,7 +60,7 @@ def main_1():
                 running = False
             c = c % 3
             screen.blit(bg3[c], (0, 0))
-            time.sleep(0.5)
+            time.sleep(1)
             c += 1
             c1 += 1
             print(c1)
@@ -93,7 +93,10 @@ def main():
             key = pygame.key.get_pressed()
             sprite2.rect.x += dx
             sprite2.rect.y += dy
-            if sprite2.rect.y > 525 or sprite2.rect.y < 0:
+            if sprite2.rect.y > 555:
+                sprite2.rect.y = 300
+                sprite2.rect.x = 400
+            if sprite2.rect.y < 0:
                 dy *= -1
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
                 dx *= -1
@@ -106,6 +109,9 @@ def main():
                 sprite.rect.x = sprite.rect.x + 2
             if key[pygame.K_LEFT]:
                 sprite.rect.x = sprite.rect.x - 2
+            if pygame.sprite.collide_mask(sprite, sprite2):
+                dy *= -1
+                dx *= 1
             screen.blit(bg, (0, 0))
             try:
                 all_sprites.draw(screen)
