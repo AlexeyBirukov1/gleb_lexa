@@ -68,6 +68,18 @@ def main_1():
             pygame.display.flip()
     main()
 
+tile_images = {
+    'b': pygame.image.load('sp/block_blue.png.png'),
+    'B': pygame.image.load('sp/block_blue_sealed.png'),
+    'p': pygame.image.load('sp/block_purple.png.png'),
+    'P': pygame.image.load('sp/block_purple_sealed.png'),
+    'R': pygame.image.load('sp/block_red_sealed.png.png'),
+    'r': pygame.image.load('sp/block_red.png'),
+    'G': pygame.image.load('sp/block_green_sealed.png'),
+    'g': pygame.image.load('sp/block_green.png')
+}
+
+
 def main():
     circles = []
     if __name__ == '__main__':
