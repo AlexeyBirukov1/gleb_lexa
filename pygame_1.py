@@ -4,7 +4,7 @@ import time
 import pygame
 
 def load_image(name, colorkey=None):
-    fullname = '/'.join('sp', name)
+    fullname = os.path.join('sp', name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
@@ -46,7 +46,7 @@ bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , py
        pygame.image.load("sp/menu_2.png")]
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
 
-class Block():
+class Block(pygame.sprite.Sprite):
     def __init__(self, color, sealed, pos_x, pos_y):
         self.color = color
         self.sealed = sealed
@@ -58,13 +58,13 @@ class Block():
 def write_map(filename):
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
-    print(level_map)
+    return level_map
 
 def generate_level(level):
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
-            Block(level[y][x], x, y)
+            Block(level[y][x], False, x, y)
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y
 
@@ -111,6 +111,7 @@ def main_1():
             print(c1)
             clock.tick(fps)
             pygame.display.flip()
+    player, level_x, level_y = generate_level(write_map('sp/map.txt'))
     main()
 
 def main():
