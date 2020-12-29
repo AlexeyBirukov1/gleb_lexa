@@ -14,13 +14,7 @@ def load_image(name, colorkey=None):
 
 tile_images = {
     'r': load_image('block_red.png'),
-    'b': load_image('block_blue.png'),
-    'g': load_image('block_green.png'),
-    'p': load_image('block_purple.png'),
     'R': load_image('block_red_sealed.png'),
-    'B': load_image('block_blue_sealed.png'),
-    'G': load_image('block_green_sealed.png'),
-    'P': load_image('block_purple_sealed.png'),
 }
 
 from d import Ui_MainWindow
@@ -38,8 +32,8 @@ sprite2.rect = sprite2.image.get_rect()
 
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
-tile_height = 136
-tile_width = 278
+tile_height = 78
+tile_width = 160
 
 bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
