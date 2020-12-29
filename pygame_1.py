@@ -7,9 +7,19 @@ all_sprites2 = pygame.sprite.Group()
 
 sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
+sprite3 = pygame.sprite.Sprite()
 
 sprite.image = pygame.image.load('sp/paddle_big.png')
 sprite2.image = pygame.image.load('sp/ball.png')
+
+sprite3.image = pygame.image.load('sp/block_blue.png.png')
+sprite3.image = pygame.image.load('sp/block_blue_sealed.png')
+sprite3.image = pygame.image.load('sp/block_purple.png.png')
+sprite3.image = pygame.image.load('sp/block_purple_sealed.png')
+sprite3.image = pygame.image.load('sp/block_red_sealed.png.png')
+sprite3.image = pygame.image.load('sp/block_red.png')
+sprite3.image = pygame.image.load('sp/block_green_sealed.png')
+sprite3.image = pygame.image.load('sp/block_green.png')
 
 sprite.rect = sprite.image.get_rect()
 sprite2.rect = sprite2.image.get_rect()
@@ -17,9 +27,8 @@ sprite2.rect = sprite2.image.get_rect()
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
 
-
 bg = pygame.image.load("sp/backgroung.png")
-bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
+bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png"), pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
 
