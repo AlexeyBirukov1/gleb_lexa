@@ -1,5 +1,27 @@
+import os
+import sys
 import time
 import pygame
+
+def load_image(name, colorkey=None):
+    fullname = '/'.join('sp', name)
+    # если файл не существует, то выходим
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    return image
+
+tile_images = {
+    'r': load_image('block_red.png'),
+    'b': load_image('block_blue.png'),
+    'g': load_image('block_green.png'),
+    'p': load_image('block_purple.png'),
+    'R': load_image('block_red_sealed.png'),
+    'B': load_image('block_blue_sealed.png'),
+    'G': load_image('block_green_sealed.png'),
+    'P': load_image('block_purple_sealed.png'),
+}
 
 from d import Ui_MainWindow
 all_sprites = pygame.sprite.Group()
@@ -16,12 +38,35 @@ sprite2.rect = sprite2.image.get_rect()
 
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
-
+tile_height = 136
+tile_width = 278
 
 bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
+
+class Block():
+    def __init__(self, color, sealed, pos_x, pos_y):
+        self.color = color
+        self.sealed = sealed
+        super().__init__(all_sprites)
+        self.image = tile_images[color]
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x, tile_height * pos_y)
+
+def write_map(filename):
+    with open(filename, 'r') as mapFile:
+        level_map = [line.strip() for line in mapFile]
+    print(level_map)
+
+def generate_level(level):
+    new_player, x, y = None, None, None
+    for y in range(len(level)):
+        for x in range(len(level[y])):
+            Block(level[y][x], x, y)
+    # вернем игрока, а также размер поля в клетках
+    return new_player, x, y
 
 def menu():
     if __name__ == '__main__':
@@ -83,9 +128,9 @@ def main():
         sprite2.rect.y = 300
         sprite2.rect.x = 400
 
-        dx = 2
-        dy = 2
-
+        dx = 3
+        dy = 3
+        write_map('sp/map.txt')
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -110,9 +155,9 @@ def main():
             # ------------------------------------------
             o = 1
             if key[pygame.K_RIGHT]:
-                sprite.rect.x = sprite.rect.x + 2
+                sprite.rect.x = sprite.rect.x + 3
             if key[pygame.K_LEFT]:
-                sprite.rect.x = sprite.rect.x - 2
+                sprite.rect.x = sprite.rect.x - 3
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
                 dx *= 1
