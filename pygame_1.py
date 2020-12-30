@@ -11,18 +11,63 @@ def load_image(name, colorkey=None):
         sys.exit()
     image = pygame.image.load(fullname)
     return image
-
 tile_images = {
     'r': load_image('block_red.png'),
     'R': load_image('block_red_sealed.png'),
 }
-
-from d import Ui_MainWindow
 all_sprites = pygame.sprite.Group()
 all_sprites2 = pygame.sprite.Group()
+all_sprites3 = pygame.sprite.Group()
 
 sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
+sprite1_1 = pygame.sprite.Sprite()
+sprite1_2 = pygame.sprite.Sprite()
+sprite1_3 = pygame.sprite.Sprite()
+sprite1_4 = pygame.sprite.Sprite()
+sprite1_5 = pygame.sprite.Sprite()
+sprite2_1 = pygame.sprite.Sprite()
+sprite2_2 = pygame.sprite.Sprite()
+sprite2_3 = pygame.sprite.Sprite()
+sprite2_4 = pygame.sprite.Sprite()
+sprite2_5 = pygame.sprite.Sprite()
+
+sprite1_1.image = pygame.image.load('sp/block_red.png')
+sprite1_1.rect = sprite1_1.image.get_rect()
+
+sprite1_2.image = pygame.image.load('sp/block_red_sealed.png')
+sprite1_2.rect = sprite1_2.image.get_rect()
+
+sprite1_3.image = pygame.image.load('sp/block_red.png')
+sprite1_3.rect = sprite1_3.image.get_rect()
+
+sprite1_4.image = pygame.image.load('sp/block_red_sealed.png')
+sprite1_4.rect = sprite1_4.image.get_rect()
+
+sprite1_5.image = pygame.image.load('sp/block_red_sealed.png')
+sprite1_5.rect = sprite1_5.image.get_rect()
+
+sprite2_1.image = pygame.image.load('sp/block_red.png')
+sprite2_1.rect = sprite1_1.image.get_rect()
+sprite2_2.image = pygame.image.load('sp/block_red_sealed.png')
+sprite2_2.rect = sprite1_2.image.get_rect()
+sprite2_3.image = pygame.image.load('sp/block_red.png')
+sprite2_3.rect = sprite1_3.image.get_rect()
+sprite2_4.image = pygame.image.load('sp/block_red_sealed.png')
+sprite2_4.rect = sprite1_4.image.get_rect()
+sprite2_5.image = pygame.image.load('sp/block_red_sealed.png')
+sprite2_5.rect = sprite1_5.image.get_rect()
+
+all_sprites3.add(sprite1_1)
+all_sprites3.add(sprite1_2)
+all_sprites3.add(sprite1_3)
+all_sprites3.add(sprite1_4)
+all_sprites3.add(sprite1_5)
+all_sprites3.add(sprite2_1)
+all_sprites3.add(sprite2_2)
+all_sprites3.add(sprite2_3)
+all_sprites3.add(sprite2_4)
+all_sprites3.add(sprite2_5)
 
 sprite.image = pygame.image.load('sp/paddle_big.png')
 sprite2.image = pygame.image.load('sp/ball.png')
@@ -39,28 +84,6 @@ bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
-
-class Block(pygame.sprite.Sprite):
-    def __init__(self, color, sealed, pos_x, pos_y):
-        self.color = color
-        self.sealed = sealed
-        super().__init__(all_sprites)
-        self.image = tile_images[color]
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x, tile_height * pos_y)
-
-def write_map(filename):
-    with open(filename, 'r') as mapFile:
-        level_map = [line.strip() for line in mapFile]
-    return level_map
-
-def generate_level(level):
-    new_player, x, y = None, None, None
-    for y in range(len(level)):
-        for x in range(len(level[y])):
-            Block(level[y][x], False, x, y)
-    # вернем игрока, а также размер поля в клетках
-    return new_player, x, y
 
 def menu():
     if __name__ == '__main__':
@@ -105,7 +128,7 @@ def main_1():
             print(c1)
             clock.tick(fps)
             pygame.display.flip()
-    player, level_x, level_y = generate_level(write_map('sp/map.txt'))
+    # player, level_x, level_y = generate_level(write_map('sp/map.txt'))
     main()
 
 def main():
@@ -118,14 +141,50 @@ def main():
         running = True
         clock = pygame.time.Clock()
         fps = 100
+        x_block = 0
+        x_block1 = 0
+        y_block = 80
         sprite.rect.y = 520
         sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
 
+        sprite2_1.rect.y = y_block
+        sprite2_2.rect.y = y_block
+        sprite2_3.rect.y = y_block
+        sprite2_4.rect.y = y_block
+        sprite2_5.rect.y = y_block
+
+        sprite1_1.rect.y = 0
+        sprite1_2.rect.y = 0
+        sprite1_3.rect.y = 0
+        sprite1_4.rect.y = 0
+        sprite1_5.rect.y = 0
+
+        sprite2_1.rect.x = x_block1
+        x_block1 += 160
+        sprite2_2.rect.x = x_block1
+        x_block1 += 160
+        sprite2_3.rect.x = x_block1
+        x_block1 += 160
+        sprite2_4.rect.x = x_block1
+        x_block1 += 160
+        sprite2_5.rect.x = x_block1
+
+        sprite1_1.rect.x = x_block
+        x_block += 160
+        sprite1_2.rect.x = x_block
+        x_block += 160
+        sprite1_3.rect.x = x_block
+        x_block += 160
+        sprite1_4.rect.x = x_block
+        x_block += 160
+        sprite1_5.rect.x = x_block
+
         dx = 3
-        dy = 3
-        write_map('sp/map.txt')
+        dy = 2
+        block = []
+        # write_map('sp/map.txt')
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -134,8 +193,8 @@ def main():
             sprite2.rect.x += dx
             sprite2.rect.y += dy
             if sprite2.rect.y > 555:
-                sprite2.rect.y = 300
-                sprite2.rect.x = 400
+                running = False
+                main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
@@ -156,17 +215,48 @@ def main():
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
                 dx *= 1
+            if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
+                dy *= -1
+                dx *= 1
+                print(len(block))
+                block.append(True)
+                if len(block) == 8:
+                    running = False
             screen.blit(bg, (0, 0))
             try:
                 all_sprites.draw(screen)
                 all_sprites2.draw(screen)
+                all_sprites3.draw(screen)
             except Exception as e:
                 print(e)
             clock.tick(fps)
             pygame.display.flip()
-
         pygame.quit()
+
+def main_2():
+    size = 600, 300
+    screen = pygame.display.set_mode(size)
+    pygame.mouse.set_visible(False)
+    all_sprites = pygame.sprite.Group()
+    sprite = pygame.sprite.Sprite()
+    sprite.image = pygame.image.load('sp/gameover.png')
+    sprite.rect = sprite.image.get_rect()
+    sprite.rect.x = 0
+    all_sprites.add(sprite)
+    clock = pygame.time.Clock()
+    running = True
+    fps = 100
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.fill(pygame.Color("blue"))
+        all_sprites.draw(screen)
+        clock.tick(fps)
+        pygame.display.flip()
+    pygame.quit()
 
 
 if __name__ == "__main__":
     menu()
+
