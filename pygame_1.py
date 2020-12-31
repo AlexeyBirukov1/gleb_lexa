@@ -92,7 +92,7 @@ def menu():
         screen = pygame.display.set_mode((600, 600))
         running = True
         clock = pygame.time.Clock()
-        fps = 100
+        fps = 2
         c = 0
         while running:
             for event in pygame.event.get():
@@ -100,37 +100,13 @@ def menu():
                     running = False
             c = c % 4
             screen.blit(bg2[c], (0, 0))
-            time.sleep(0.5)
             c += 1
             clock.tick(fps)
             pygame.display.flip()
-        main_1()
+        main()
 
 
-def main_1():
-    if __name__ == '__main__':
-        pygame.init()
-        pygame.display.set_caption('ШАРЫ')
-        screen = pygame.display.set_mode((700, 525))
-        running = True
-        clock = pygame.time.Clock()
-        fps = 100
-        c = 0
-        c1 = 0
-        while running:
-            if c1 > 2:
-                running = False
-            c = c % 3
-            screen.blit(bg3[c], (0, 0))
-            time.sleep(1)
-            c += 1
-            c1 += 1
-            print(c1)
-            clock.tick(fps)
-            pygame.display.flip()
-    # player, level_x, level_y = generate_level(write_map('sp/map.txt'))
-    main()
-
+# player, level_x, level_y = generate_level(write_map('sp/map.txt'))
 def main():
     circles = []
     if __name__ == '__main__':
@@ -181,7 +157,7 @@ def main():
         x_block += 160
         sprite1_5.rect.x = x_block
 
-        dx = 3
+        dx = 2
         dy = 2
         block = []
         # write_map('sp/map.txt')
@@ -222,6 +198,7 @@ def main():
                 block.append(True)
                 if len(block) == 8:
                     running = False
+                    win()
             screen.blit(bg, (0, 0))
             try:
                 all_sprites.draw(screen)
@@ -232,6 +209,31 @@ def main():
             clock.tick(fps)
             pygame.display.flip()
         pygame.quit()
+
+
+def win():
+    size = 800, 600
+    screen = pygame.display.set_mode(size)
+    pygame.mouse.set_visible(False)
+    all_sprites = pygame.sprite.Group()
+    sprite = pygame.sprite.Sprite()
+    sprite.image = pygame.image.load('sp/win.png')
+    sprite.rect = sprite.image.get_rect()
+    sprite.rect.x = 0
+    all_sprites.add(sprite)
+    clock = pygame.time.Clock()
+    running = True
+    fps = 100
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.fill(pygame.Color("blue"))
+        all_sprites.draw(screen)
+        clock.tick(fps)
+        pygame.display.flip()
+    pygame.quit()
+
 
 def main_2():
     size = 600, 300
