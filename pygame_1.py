@@ -21,53 +21,6 @@ all_sprites3 = pygame.sprite.Group()
 
 sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
-sprite1_1 = pygame.sprite.Sprite()
-sprite1_2 = pygame.sprite.Sprite()
-sprite1_3 = pygame.sprite.Sprite()
-sprite1_4 = pygame.sprite.Sprite()
-sprite1_5 = pygame.sprite.Sprite()
-sprite2_1 = pygame.sprite.Sprite()
-sprite2_2 = pygame.sprite.Sprite()
-sprite2_3 = pygame.sprite.Sprite()
-sprite2_4 = pygame.sprite.Sprite()
-sprite2_5 = pygame.sprite.Sprite()
-
-sprite1_1.image = pygame.image.load('sp/block_red.png')
-sprite1_1.rect = sprite1_1.image.get_rect()
-
-sprite1_2.image = pygame.image.load('sp/block_red_sealed.png')
-sprite1_2.rect = sprite1_2.image.get_rect()
-
-sprite1_3.image = pygame.image.load('sp/block_red.png')
-sprite1_3.rect = sprite1_3.image.get_rect()
-
-sprite1_4.image = pygame.image.load('sp/block_red_sealed.png')
-sprite1_4.rect = sprite1_4.image.get_rect()
-
-sprite1_5.image = pygame.image.load('sp/block_red_sealed.png')
-sprite1_5.rect = sprite1_5.image.get_rect()
-
-sprite2_1.image = pygame.image.load('sp/block_red.png')
-sprite2_1.rect = sprite1_1.image.get_rect()
-sprite2_2.image = pygame.image.load('sp/block_red_sealed.png')
-sprite2_2.rect = sprite1_2.image.get_rect()
-sprite2_3.image = pygame.image.load('sp/block_red.png')
-sprite2_3.rect = sprite1_3.image.get_rect()
-sprite2_4.image = pygame.image.load('sp/block_red_sealed.png')
-sprite2_4.rect = sprite1_4.image.get_rect()
-sprite2_5.image = pygame.image.load('sp/block_red_sealed.png')
-sprite2_5.rect = sprite1_5.image.get_rect()
-
-all_sprites3.add(sprite1_1)
-all_sprites3.add(sprite1_2)
-all_sprites3.add(sprite1_3)
-all_sprites3.add(sprite1_4)
-all_sprites3.add(sprite1_5)
-all_sprites3.add(sprite2_1)
-all_sprites3.add(sprite2_2)
-all_sprites3.add(sprite2_3)
-all_sprites3.add(sprite2_4)
-all_sprites3.add(sprite2_5)
 
 sprite.image = pygame.image.load('sp/paddle_big.png')
 sprite2.image = pygame.image.load('sp/ball.png')
@@ -84,6 +37,28 @@ bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
+
+class Block(pygame.sprite.Sprite):
+    def __init__(self, color, sealed, pos_x, pos_y):
+        self.color = color
+        self.sealed = sealed
+        super().__init__(all_sprites)
+        self.image = tile_images[color]
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x, tile_height * pos_y)
+
+def write_map(filename):
+    with open(filename, 'r') as mapFile:
+        level_map = [line.strip() for line in mapFile]
+    return level_map
+
+def generate_level(level):
+    new_player, x, y = None, None, None
+    for y in range(len(level)):
+        for x in range(len(level[y])):
+            Block(level[y][x], False, x, y)
+    # вернем игрока, а также размер поля в клетках
+    return new_player, x, y
 
 def menu():
     if __name__ == '__main__':
@@ -106,7 +81,7 @@ def menu():
         main()
 
 
-# player, level_x, level_y = generate_level(write_map('sp/map.txt'))
+player, level_x, level_y = generate_level(write_map('sp/map.txt'))
 def main():
     circles = []
     if __name__ == '__main__':
@@ -117,50 +92,15 @@ def main():
         running = True
         clock = pygame.time.Clock()
         fps = 100
-        x_block = 0
-        x_block1 = 0
-        y_block = 80
         sprite.rect.y = 520
         sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
 
-        sprite2_1.rect.y = y_block
-        sprite2_2.rect.y = y_block
-        sprite2_3.rect.y = y_block
-        sprite2_4.rect.y = y_block
-        sprite2_5.rect.y = y_block
-
-        sprite1_1.rect.y = 0
-        sprite1_2.rect.y = 0
-        sprite1_3.rect.y = 0
-        sprite1_4.rect.y = 0
-        sprite1_5.rect.y = 0
-
-        sprite2_1.rect.x = x_block1
-        x_block1 += 160
-        sprite2_2.rect.x = x_block1
-        x_block1 += 160
-        sprite2_3.rect.x = x_block1
-        x_block1 += 160
-        sprite2_4.rect.x = x_block1
-        x_block1 += 160
-        sprite2_5.rect.x = x_block1
-
-        sprite1_1.rect.x = x_block
-        x_block += 160
-        sprite1_2.rect.x = x_block
-        x_block += 160
-        sprite1_3.rect.x = x_block
-        x_block += 160
-        sprite1_4.rect.x = x_block
-        x_block += 160
-        sprite1_5.rect.x = x_block
-
         dx = 2
         dy = 2
         block = []
-        # write_map('sp/map.txt')
+        write_map('sp/map.txt')
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
