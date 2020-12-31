@@ -46,6 +46,7 @@ class Block(pygame.sprite.Sprite):
         self.image = tile_images[color]
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
+        self.add(all_sprites3)
 
 def write_map(filename):
     with open(filename, 'r') as mapFile:
@@ -135,8 +136,9 @@ def main():
                 dy *= -1
                 dx *= 1
                 print(len(block))
+                print(len(all_sprites3))
                 block.append(True)
-                if len(block) == 8:
+                if len(block) == 15:
                     running = False
                     win()
             screen.blit(bg, (0, 0))
