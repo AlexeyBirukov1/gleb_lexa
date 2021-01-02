@@ -33,6 +33,7 @@ all_sprites2.add(sprite2)
 tile_height = 78
 tile_width = 160
 
+
 bg = pygame.image.load("sp/backgroung.png")
 bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
        pygame.image.load("sp/menu_2.png")]
@@ -86,6 +87,7 @@ player, level_x, level_y = generate_level(write_map('sp/map.txt'))
 def main():
     circles = []
     if __name__ == '__main__':
+        c_score = 0
         pygame.init()
         pygame.display.set_caption('ШАРЫ')
         screen = pygame.display.set_mode((800, 600))
@@ -97,11 +99,17 @@ def main():
         sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
-
+        pygame.font.init()  # you have to call this at the start,
+        # if you want to use this module.
+        myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        textsurface = myfont.render(str(c_score), False, (255, 255, 255))
         dx = 2
         dy = 2
         block = []
         write_map('sp/map.txt')
+        maxscore = len(all_sprites3)
+        score = 0
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -126,9 +134,9 @@ def main():
             # ------------------------------------------
             o = 1
             if key[pygame.K_RIGHT]:
-                sprite.rect.x = sprite.rect.x + 3
+                sprite.rect.x = sprite.rect.x + 4
             if key[pygame.K_LEFT]:
-                sprite.rect.x = sprite.rect.x - 3
+                sprite.rect.x = sprite.rect.x - 4
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
                 dx *= 1
@@ -139,8 +147,11 @@ def main():
                 else:
                     dy *= 1
                     dx *= -1
-                block.append(True)
-                if len(block) == 15:
+                score1 = score
+                score = maxscore - len(all_sprites3)
+                c_score += (score - score1) * 100
+                textsurface = myfont.render(str(c_score), False, (255, 255, 255))
+                if score == maxscore:
                     running = False
                     win()
             screen.blit(bg, (0, 0))
@@ -151,6 +162,7 @@ def main():
             except Exception as e:
                 print(e)
             clock.tick(fps)
+            screen.blit(textsurface, (0, 0))
             pygame.display.flip()
         pygame.quit()
 
