@@ -133,10 +133,12 @@ def main():
                 dy *= -1
                 dx *= 1
             if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
-                dy *= -1
-                dx *= 1
-                print(len(block))
-                print(len(all_sprites3))
+                if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
+                    dy *= -1
+                    dx *= 1
+                else:
+                    dy *= 1
+                    dx *= -1
                 block.append(True)
                 if len(block) == 15:
                     running = False
@@ -203,4 +205,3 @@ def main_2():
 
 if __name__ == "__main__":
     menu()
-
