@@ -105,8 +105,8 @@ def main(mapp='sp/map.txt', c_score = c_score):
         # if you want to use this module.
         myfont = pygame.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-        dx = 3
-        dy = 3
+        dx = 2
+        dy = 2
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
         maxscore = len(all_sprites3)
@@ -120,9 +120,8 @@ def main(mapp='sp/map.txt', c_score = c_score):
             sprite2.rect.x += dx
             sprite2.rect.y += dy
             if sprite2.rect.y > 555:
-                dy *= -1
-                # running = False
-                # main_2()
+                running = False
+                main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
@@ -167,10 +166,10 @@ def main(mapp='sp/map.txt', c_score = c_score):
             clock.tick(fps)
             screen.blit(textsurface, (0, 0))
             pygame.display.flip()
-        pygame.quit()
 
 
 def win(lvl1=lvl):
+    global lvl
     size = 800, 600
     screen = pygame.display.set_mode(size)
     pygame.mouse.set_visible(False)
@@ -192,10 +191,8 @@ def win(lvl1=lvl):
         clock.tick(fps)
         pygame.display.flip()
     if lvl1 < 4:
-        lvl1 += 1
+        lvl += 1
         main(lvls[lvl1])
-    else:
-        pygame.quit()
 
 
 
@@ -220,7 +217,6 @@ def main_2():
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
-    pygame.quit()
 
 
 if __name__ == "__main__":
