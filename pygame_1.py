@@ -37,8 +37,9 @@ tile_width = 160
 
 
 bg = pygame.image.load("sp/backgroung.png")
-bg2 = [pygame.image.load("sp/menu.png"), pygame.image.load("sp/menu_2.png") , pygame.image.load("sp/menu_3.png"),
-       pygame.image.load("sp/menu_2.png")]
+bg2 = []
+for i in range(42):
+    bg2.append(pygame.image.load("anim/tmp-" + str(i) + ".gif"))
 bg3 = [pygame.image.load("sp/screen_1.png"), pygame.image.load("sp/screen_2.png"), pygame.image.load("sp/screen_3.png")]
 
 class Block(pygame.sprite.Sprite):
@@ -68,16 +69,16 @@ def menu():
     if __name__ == '__main__':
         pygame.init()
         pygame.display.set_caption('ШАРЫ')
-        screen = pygame.display.set_mode((600, 600))
+        screen = pygame.display.set_mode((960, 560))
         running = True
         clock = pygame.time.Clock()
-        fps = 2
+        fps = 25
         c = 0
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     running = False
-            c = c % 4
+            c = c % 41
             screen.blit(bg2[c], (0, 0))
             c += 1
             clock.tick(fps)
