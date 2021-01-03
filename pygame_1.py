@@ -2,7 +2,8 @@ import os
 import sys
 import time
 import pygame
-
+lvl = 0
+lvls = ['sp/map.txt', 'sp/map2.txt', 'sp/map3.txt', 'sp/map4.txt', 'sp/map5.txt']
 def load_image(name, colorkey=None):
     fullname = os.path.join('sp', name)
     # если файл не существует, то выходим
@@ -27,7 +28,7 @@ sprite2.image = pygame.image.load('sp/ball.png')
 
 sprite.rect = sprite.image.get_rect()
 sprite2.rect = sprite2.image.get_rect()
-
+c_score = 0
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
 tile_height = 78
@@ -80,11 +81,11 @@ def menu():
             c += 1
             clock.tick(fps)
             pygame.display.flip()
-        main()
+        main(lvls[lvl])
 
 
-player, level_x, level_y = generate_level(write_map('sp/map.txt'))
-def main():
+
+def main(mapp='sp/map.txt'):
     circles = []
     if __name__ == '__main__':
         c_score = 0
@@ -106,10 +107,10 @@ def main():
         dx = 2
         dy = 2
         block = []
-        write_map('sp/map.txt')
+        player, level_x, level_y = generate_level(write_map(mapp))
         maxscore = len(all_sprites3)
         score = 0
-
+        print(all_sprites3)
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -188,7 +189,12 @@ def win():
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
-    pygame.quit()
+    if lvl < 4:
+        lvl += 1
+        main(lvls[lvl])
+    else:
+        pygame.quit()
+
 
 
 def main_2():
