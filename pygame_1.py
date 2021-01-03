@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import pygame
-lvl = 0
+
 lvls = ['sp/map.txt', 'sp/map2.txt', 'sp/map3.txt', 'sp/map4.txt', 'sp/map5.txt']
 def load_image(name, colorkey=None):
     fullname = os.path.join('sp', name)
@@ -32,6 +32,7 @@ c_score = 0
 all_sprites.add(sprite)
 all_sprites2.add(sprite2)
 tile_height = 78
+lvl = 0
 tile_width = 160
 
 
@@ -85,7 +86,7 @@ def menu():
 
 
 
-def main(mapp='sp/map.txt'):
+def main(mapp='sp/map.txt', c_score = c_score):
     circles = []
     if __name__ == '__main__':
         c_score = 0
@@ -104,13 +105,13 @@ def main(mapp='sp/map.txt'):
         # if you want to use this module.
         myfont = pygame.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-        dx = 2
-        dy = 2
+        dx = 3
+        dy = 3
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
         maxscore = len(all_sprites3)
         score = 0
-        print(all_sprites3)
+        print(lvl)
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -119,8 +120,9 @@ def main(mapp='sp/map.txt'):
             sprite2.rect.x += dx
             sprite2.rect.y += dy
             if sprite2.rect.y > 555:
-                running = False
-                main_2()
+                dy *= -1
+                # running = False
+                # main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
@@ -168,7 +170,7 @@ def main(mapp='sp/map.txt'):
         pygame.quit()
 
 
-def win():
+def win(lvl1=lvl):
     size = 800, 600
     screen = pygame.display.set_mode(size)
     pygame.mouse.set_visible(False)
@@ -189,9 +191,9 @@ def win():
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
-    if lvl < 4:
-        lvl += 1
-        main(lvls[lvl])
+    if lvl1 < 4:
+        lvl1 += 1
+        main(lvls[lvl1])
     else:
         pygame.quit()
 
