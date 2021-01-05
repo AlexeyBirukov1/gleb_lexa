@@ -76,6 +76,8 @@ def menu():
         c = 0
         while running:
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
                 if event.type == pygame.KEYDOWN:
                     running = False
             c = c % 41
@@ -87,7 +89,7 @@ def menu():
 
 
 
-def main(mapp='sp/map.txt', c_score = c_score):
+def main(mapp='sp/map.txt'):
     circles = []
     if __name__ == '__main__':
         c_score = 0
@@ -135,7 +137,6 @@ def main(mapp='sp/map.txt', c_score = c_score):
                 sprite.rect.x = 649
 
             # ------------------------------------------
-            o = 1
             if key[pygame.K_RIGHT]:
                 sprite.rect.x = sprite.rect.x + 4
             if key[pygame.K_LEFT]:
@@ -186,6 +187,8 @@ def win(lvl1=lvl):
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
                 running = False
         screen.fill(pygame.Color("blue"))
         all_sprites.draw(screen)
