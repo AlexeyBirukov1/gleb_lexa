@@ -96,6 +96,7 @@ def menu():
 
 
 def main(mapp='sp/map.txt'):
+    coun = 0
     circles = []
     if __name__ == '__main__':
 
@@ -119,11 +120,12 @@ def main(mapp='sp/map.txt'):
         pygame.font.init()  # you have to call this at the start,
         # if you want to use this module.
 
-        myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        myfont = pygame.font.SysFont('comicsansms', 48)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
+        textsurface1 = myfont.render(str(0), False, (255, 255, 255))
 
-        dx = 25
-        dy = 25
+        dx = 2
+        dy = 2
 
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
@@ -201,6 +203,7 @@ def main(mapp='sp/map.txt'):
                 print(e)
             clock.tick(fps)
             screen.blit(textsurface, (0, 0))
+            screen.blit(textsurface1, (380, 0))
             pygame.display.flip()
 
 
@@ -222,6 +225,8 @@ def win(lvl1=lvl):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                pygame.quit()
+                break
             if event.type == pygame.KEYDOWN:
                 running = False
         screen.fill(pygame.Color("blue"))
