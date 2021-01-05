@@ -170,7 +170,7 @@ def main(mapp='sp/map.txt'):
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
                 dx *= 1
-
+            a = 0
             if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= -1
