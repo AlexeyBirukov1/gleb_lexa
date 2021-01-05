@@ -36,7 +36,7 @@ all_sprites2.add(sprite2)
 tile_height = 78
 lvl = 0
 tile_width = 160
-
+clock = pygame.time.Clock()
 
 bg = pygame.image.load("sp/backgroung.png")
 bg2 = []
@@ -140,9 +140,11 @@ def main(mapp='sp/map.txt'):
             sprite2.rect.x += dx
             sprite2.rect.y += dy
             if sprite2.rect.y > 555:
-                dy *= -1
-                # running = False
-                # main_2()
+                if a1:
+                    dy *= -1
+                else:
+                    running = False
+                    main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
 
@@ -160,10 +162,10 @@ def main(mapp='sp/map.txt'):
 
             # ------------------------------------------
             if key[pygame.K_RIGHT]:
-                sprite.rect.x = sprite.rect.x + 8
+                sprite.rect.x = sprite.rect.x + 12
 
             if key[pygame.K_LEFT]:
-                sprite.rect.x = sprite.rect.x - 8
+                sprite.rect.x = sprite.rect.x - 12
 
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
@@ -179,7 +181,15 @@ def main(mapp='sp/map.txt'):
             if pygame.sprite.groupcollide(all_sprites2, all_sprites4, False, True):
                 a1 = True
                 sprite2.image = pygame.image.load('sp/ball_2.png')
-                timer = 15
+                timer = 15 * fps
+                if dx > 0:
+                    dx = 10
+                else:
+                    dx = -10
+                if dy > 0:
+                    dy = 10
+                else:
+                    dy = -10
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= -1
                     dx *= 1
@@ -191,8 +201,16 @@ def main(mapp='sp/map.txt'):
             score = maxscore - all_score
             c_score += (score - score1) * 100
             textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-            textsurface1 = myfont.render('0:' + str(timer), False, (255, 255, 255))
+            textsurface1 = myfont.render('0:' + str(timer//fps), False, (255, 255, 255))
             if timer == 0:
+                if dx > 0:
+                    dx = 5
+                else:
+                    dx = -5
+                if dy > 0:
+                    dy = 5
+                else:
+                    dy = -5
                 a1 = False
                 sprite2.image = pygame.image.load('sp/ball.png')
             if a1 == True:
