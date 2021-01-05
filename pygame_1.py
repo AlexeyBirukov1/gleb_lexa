@@ -19,6 +19,7 @@ tile_images = {
 all_sprites = pygame.sprite.Group()
 all_sprites2 = pygame.sprite.Group()
 all_sprites3 = pygame.sprite.Group()
+all_sprites4 = pygame.sprite.Group()
 
 sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
@@ -50,7 +51,10 @@ class Block(pygame.sprite.Sprite):
         self.image = tile_images[color]
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
-        self.add(all_sprites3)
+        if color == 'r':
+            self.add(all_sprites3)
+        else:
+            self.add(all_sprites4)
 
 def write_map(filename):
     with open(filename, 'r') as mapFile:
@@ -61,7 +65,8 @@ def generate_level(level):
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
-            Block(level[y][x], False, x, y)
+            if level[y][x] == 'r' or level[y][x] == 'R':
+                Block(level[y][x], False, x, y)
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y
 
@@ -108,13 +113,12 @@ def main(mapp='sp/map.txt'):
         # if you want to use this module.
         myfont = pygame.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-        dx = 2
-        dy = 2
+        dx = 5
+        dy = 5
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
         maxscore = len(all_sprites3)
         score = 0
-        print(lvl)
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -123,8 +127,9 @@ def main(mapp='sp/map.txt'):
             sprite2.rect.x += dx
             sprite2.rect.y += dy
             if sprite2.rect.y > 555:
-                running = False
-                main_2()
+                dy *= -1
+                # running = False
+                # main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
@@ -194,9 +199,9 @@ def win(lvl1=lvl):
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
-    if lvl1 < 4:
+    if lvl < 4:
         lvl += 1
-        main(lvls[lvl1])
+        main(lvls[lvl])
 
 
 
