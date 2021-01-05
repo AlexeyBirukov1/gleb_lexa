@@ -23,6 +23,7 @@ all_sprites4 = pygame.sprite.Group()
 
 sprite = pygame.sprite.Sprite()
 sprite2 = pygame.sprite.Sprite()
+sprite2_1 = pygame.sprite.Sprite()
 
 sprite.image = pygame.image.load('sp/paddle_big.png')
 sprite2.image = pygame.image.load('sp/ball.png')
@@ -97,28 +98,39 @@ def menu():
 def main(mapp='sp/map.txt'):
     circles = []
     if __name__ == '__main__':
+
         c_score = 0
+
         pygame.init()
         pygame.display.set_caption('ШАРЫ')
         screen = pygame.display.set_mode((800, 600))
         circles.append(list((400, 300)))
+
         running = True
         clock = pygame.time.Clock()
+
         fps = 100
+
         sprite.rect.y = 520
         sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
+
         pygame.font.init()  # you have to call this at the start,
         # if you want to use this module.
+
         myfont = pygame.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-        dx = 5
-        dy = 5
+
+        dx = 25
+        dy = 25
+
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
-        maxscore = len(all_sprites3)
+
+        maxscore = len(all_sprites3) + len(all_sprites4)
         score = 0
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -132,23 +144,30 @@ def main(mapp='sp/map.txt'):
                 # main_2()
             if sprite2.rect.y < 0:
                 dy *= -1
+
             if sprite2.rect.x > 725 or sprite2.rect.x < 0:
                 dx *= -1
+
             if sprite2.rect.x == sprite.rect.x and sprite2.rect.y == 550:
                 dy *= -1
+
             if sprite.rect.x <= 0:
                 sprite.rect.x = 1
+
             if sprite.rect.x >= 650:
                 sprite.rect.x = 649
 
             # ------------------------------------------
             if key[pygame.K_RIGHT]:
                 sprite.rect.x = sprite.rect.x + 4
+
             if key[pygame.K_LEFT]:
                 sprite.rect.x = sprite.rect.x - 4
+
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
                 dx *= 1
+
             if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= -1
@@ -156,13 +175,23 @@ def main(mapp='sp/map.txt'):
                 else:
                     dy *= 1
                     dx *= -1
-                score1 = score
-                score = maxscore - len(all_sprites3)
-                c_score += (score - score1) * 100
-                textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-                if score == maxscore:
-                    running = False
-                    win()
+
+            if pygame.sprite.groupcollide(all_sprites2, all_sprites4, False, True):
+                sprite2.image = pygame.image.load('sp/ball_2.png')
+                if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
+                    dy *= -1
+                    dx *= 1
+                else:
+                    dy *= 1
+                    dx *= -1
+            score1 = score
+            all_score = len(all_sprites3) + len(all_sprites4)
+            score = maxscore - all_score
+            c_score += (score - score1) * 100
+            textsurface = myfont.render(str(c_score), False, (255, 255, 255))
+            if score == maxscore:
+                running = False
+                win()
             screen.blit(bg, (0, 0))
             try:
                 all_sprites.draw(screen)
