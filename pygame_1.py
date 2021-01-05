@@ -94,7 +94,6 @@ def menu():
         main(lvls[lvl])
 
 
-
 def main(mapp='sp/map.txt'):
     coun = 0
     circles = []
@@ -110,7 +109,7 @@ def main(mapp='sp/map.txt'):
         running = True
         clock = pygame.time.Clock()
 
-        fps = 100
+        fps = 30
 
         sprite.rect.y = 520
         sprite.rect.x = 300
@@ -119,20 +118,20 @@ def main(mapp='sp/map.txt'):
 
         pygame.font.init()  # you have to call this at the start,
         # if you want to use this module.
-
         myfont = pygame.font.SysFont('comicsansms', 48)
         textsurface = myfont.render(str(c_score), False, (255, 255, 255))
-        textsurface1 = myfont.render(str(0), False, (255, 255, 255))
+        textsurface1 = myfont.render('0' + ':' + str(0), False, (255, 255, 255))
 
-        dx = 2
-        dy = 2
+        dx = 5
+        dy = 5
 
         block = []
         player, level_x, level_y = generate_level(write_map(mapp))
 
         maxscore = len(all_sprites3) + len(all_sprites4)
         score = 0
-
+        timer = 0
+        a1 = False
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -161,10 +160,10 @@ def main(mapp='sp/map.txt'):
 
             # ------------------------------------------
             if key[pygame.K_RIGHT]:
-                sprite.rect.x = sprite.rect.x + 4
+                sprite.rect.x = sprite.rect.x + 8
 
             if key[pygame.K_LEFT]:
-                sprite.rect.x = sprite.rect.x - 4
+                sprite.rect.x = sprite.rect.x - 8
 
             if pygame.sprite.collide_mask(sprite, sprite2):
                 dy *= -1
@@ -177,9 +176,10 @@ def main(mapp='sp/map.txt'):
                 else:
                     dy *= 1
                     dx *= -1
-
             if pygame.sprite.groupcollide(all_sprites2, all_sprites4, False, True):
+                a1 = True
                 sprite2.image = pygame.image.load('sp/ball_2.png')
+                timer = 15
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= -1
                     dx *= 1
@@ -191,6 +191,13 @@ def main(mapp='sp/map.txt'):
             score = maxscore - all_score
             c_score += (score - score1) * 100
             textsurface = myfont.render(str(c_score), False, (255, 255, 255))
+            textsurface1 = myfont.render('0:' + str(timer), False, (255, 255, 255))
+            if timer == 0:
+                a1 = False
+                sprite2.image = pygame.image.load('sp/ball.png')
+            if a1 == True:
+                # time.sleep(1)
+                timer -= 1
             if score == maxscore:
                 running = False
                 win()
