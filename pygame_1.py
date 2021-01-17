@@ -1,6 +1,7 @@
 import os
 import sys
 import pygame
+from os import path
 # Добро пожаловать в наш проект! Комментарии помогут вам разобраться с кодом
 # Данная зона кода является подготовительной. Тут определяются главные переменные и функции
 
@@ -48,6 +49,9 @@ bg = pygame.image.load("sp/backgroung.png")
 bg2 = []
 for i in range(42):
     bg2.append(pygame.image.load("anim/tmp-" + str(i) + ".gif"))
+bg3 = []
+for i in range(49):
+    bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"
 
 class Block(pygame.sprite.Sprite):
     # это класс кирпичика.
@@ -64,12 +68,14 @@ class Block(pygame.sprite.Sprite):
             self.add(all_sprites4)
 
 def write_map(filename):
+
     # эта функция читает текстовый файл карты и делает на основании его массив с данными
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
     return level_map
 
 def generate_level(level):
+
     # эта функция на основании массива с данными генерирует блоки
     new_player, x, y = None, None, None
     for y in range(len(level)):
@@ -79,6 +85,7 @@ def generate_level(level):
     return new_player, x, y
 
 def menu():
+
     # это стартовый экран. Он объясняет новому игроку цель игры
     if __name__ == '__main__':
         pygame.init()
@@ -116,8 +123,10 @@ def menu():
 
 
 def main(mapp='sp/map.txt'):
+
     # это главная функция в проекте, которая является основным игровым процессом
     if __name__ == '__main__':
+
         # тут по стандарту предзагружается питон и глобальная переменная очков
         global c_score
 
@@ -129,43 +138,54 @@ def main(mapp='sp/map.txt'):
         clock = pygame.time.Clock()
 
         fps = 30
+
         # расставляем мячик и ракетку по местам
         sprite.rect.y = 520
         sprite.rect.x = 300
         sprite2.rect.y = 300
         sprite2.rect.x = 400
+
         # это наши основные текстовые виджеты.
         pygame.font.init()
         myfont = pygame.font.SysFont('comicsansms', 24)
         textsurface = myfont.render('Очки:' + str(c_score), False, (255, 255, 255)) # очки
         textsurface1 = myfont.render('0' + ':' + str(0), False, (255, 255, 255)) # таймер оставшегося времени усиления
+
         # скорость мяча
         dx = 5
         dy = 5
+
         # загружаем карту из txt файла
         player, level_x, level_y = generate_level(write_map(mapp))
 
         maxscore = len(all_sprites3) + len(all_sprites4)
         score = 0
         timer = 0
+
         # эта переменная отвечает за то, мячик сейчас ускорен или нет
+        snd_dir = path.join(path.dirname(__file__), 'sp')
+        collide_sound = pygame.mixer.Sound(path.join(snd_dir, 'sfx-4.mp3'))
+        col_sound = pygame.mixer.Sound(path.join(snd_dir, 'sfx-15.mp3'))
         a1 = False
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
             key = pygame.key.get_pressed()
+
             # двигаем мяч
             sprite2.rect.x += dx
             sprite2.rect.y += dy
+
             # отрабатываем касания от стенок
             if sprite2.rect.y > 555:
+
                 # если мяч не усилен, то он не умирает
                 if a1:
                     dy *= -1
                 else:
                     running = False
-                    main_2()
+                    gameover()
             if sprite2.rect.y < 0:
                 dy *= -1
 
@@ -180,33 +200,42 @@ def main(mapp='sp/map.txt'):
 
             if sprite.rect.x >= 650:
                 sprite.rect.x = 649
+
             # двигаем ракетку, если игрок нажимает кнопки
             if key[pygame.K_RIGHT]:
                 sprite.rect.x = sprite.rect.x + 12
 
             if key[pygame.K_LEFT]:
                 sprite.rect.x = sprite.rect.x - 12
+
             # отрабатываем касания мячика с другими объектами
             if pygame.sprite.collide_mask(sprite, sprite2):
+                col_sound.play()
                 # отскок от ракетки
                 dy *= -1
                 dx *= 1
             if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
-                # глеб это что
+                collide_sound.play()
+                # отскок мяча от в нижней части блоков
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
-                    dy *= -1
-                    dx *= 1
-                else:
                     dy *= 1
                     dx *= -1
+                else:
+                    dy *= -1
+                    dx *= 1
             if pygame.sprite.groupcollide(all_sprites2, all_sprites4, False, True):
+                collide_sound.play()
                 # касания мяча и усиленных блоков
                 a1 = True
+
                 # врубаем режим усиления
                 sprite2.image = pygame.image.load('sp/ball_2.png')
+
                 # обновляем таймер относительно текущих кадров в секунду
-                timer = 5 * fps
+                timer = 10 * fps
+
                 # увеличиваем скорость так, чтобы избежать неправильного направления полета мяча
+
                 if dx > 0:
                     dx = 10
                 else:
@@ -215,24 +244,29 @@ def main(mapp='sp/map.txt'):
                     dy = 10
                 else:
                     dy = -10
+                # отскок мяча от в нижней части блоков
+
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= -1
                     dx *= 1
                 else:
-                    dy *= 1
-                    dx *= -1
+                    dy *= -1
+                    dx *= 1
             # тут стартует алгоритм вычисления очков.
             # Дело в том, что иногда мячик может сбить не один блок, а два сразу.
-            # Для таких случаев я сделал алгоритм, который позволяет эту ошибку избежать.
+            # Для таких случаев мы сделали алгоритм, который позволяет эту ошибку избежать.
             # Он из количества блоков до удара мячом (score1) вычитает количество блоков, после удара мячом (score)
             # После этого он обновляет счетчик и смотрит, не выиграл ли игрок (не достиг ли он maxscore)
+
             score1 = score
             all_score = len(all_sprites3) + len(all_sprites4)
             score = maxscore - all_score
             c_score += (score - score1) * 100
+
             # Обновляем очки и таймер
             textsurface = myfont.render(str(c_score), False, (255, 25, 255))
             textsurface1 = myfont.render('0:' + str(timer//fps), False, (255, 25, 255))
+
             # Обновляем таймер
             if timer == 0:
                 if dx > 0:
@@ -250,6 +284,7 @@ def main(mapp='sp/map.txt'):
             if score == maxscore:
                 running = False
                 win()
+
             # остается только отрисовать все, что мы сделали
             screen.blit(bg, (0, 0))
             try:
@@ -272,6 +307,7 @@ def win():
     pygame.mouse.set_visible(False)
     all_sprites = pygame.sprite.Group()
     sprite = pygame.sprite.Sprite()
+
     # все определяется в этой развилке:
     if lvl < 4:
         sprite.image = pygame.image.load('sp/win.png')
@@ -283,7 +319,10 @@ def win():
     clock = pygame.time.Clock()
     running = True
     fps = 100
+    snd_dir = path.join(path.dirname(__file__), 'sp')
+    dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
     while running:
+        dance.play()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -291,20 +330,59 @@ def win():
                 break
             if event.type == pygame.KEYDOWN:
                 running = False
-        screen.fill(pygame.Color("blue"))
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
+
     # а также тут. Если уровень последний, то мы не начинаем новую игру а просто закрываем окно
     if lvl < 4:
         lvl += 1
         main(lvls[lvl])
 
+def obama:
+    global lvl
+    lvl = 5
+    size = 800, 600
+    screen = pygame.display.set_mode(size)
+    pygame.mouse.set_visible(False)
+    all_sprites = pygame.sprite.Group()
+    sprite = pygame.sprite.Sprite()
+    # все определяется в этой развилке:
+    sprite.image = pygame.image.load('sp/fin.png')
+    sprite.rect = sprite.image.get_rect()
+    sprite.rect.x = 0
+    all_sprites.add(sprite)
+    clock = pygame.time.Clock()
+    running = True
+    fps = 100
+    snd_dir = path.join(path.dirname(__file__), 'sp')
+    dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
+    while running:
+        dance.play()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                break
+            if event.type == pygame.KEYDOWN:
+                running = False
+        for i in range(len(bg3)):
+            sprite.image = pygame.image.load(i)
+            sprite.rect = sprite.image.get_rect()
+            sprite.rect.x = 0
+        all_sprites.draw(screen)
+        clock.tick(fps)
+        pygame.display.flip()
 
+    # а также тут. Если уровень последний, то мы не начинаем новую игру а просто закрываем окно
+    if lvl < 4:
+        lvl += 1
+        main(lvls[lvl])
 
-def main_2():
-    # это экран конца игры, который мы нагло (очень) взяли прямо с урока
-    size = 600, 300
+def gameover():
+
+    # это экран конца игры
+    size = 700, 460
     screen = pygame.display.set_mode(size)
     pygame.mouse.set_visible(False)
     all_sprites = pygame.sprite.Group()
@@ -324,6 +402,8 @@ def main_2():
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
+    pygame.quit()
+
 
 # ну и при запуске игры мы запускаем стартовое меню
 if __name__ == "__main__":
