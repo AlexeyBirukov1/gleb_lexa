@@ -320,6 +320,7 @@ def win():
     all_sprites.add(sprite)
     clock = pygame.time.Clock()
     running = True
+    a = 0
     fps = 100
     snd_dir = path.join(path.dirname(__file__), 'sp')
     dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
