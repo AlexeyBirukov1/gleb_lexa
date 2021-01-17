@@ -49,10 +49,10 @@ bg = pygame.image.load("sp/backgroung.png")
 bg2 = []
 for i in range(42):
     bg2.append(pygame.image.load("anim/tmp-" + str(i) + ".gif"))
-bg3 = []
-for i in range(49):
-    bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"))
-
+# bg3 = []
+# for i in range(49):
+#     bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"))
+# print(bg3)
 class Block(pygame.sprite.Sprite):
     # это класс кирпичика.
     def __init__(self, color, sealed, pos_x, pos_y):
@@ -207,7 +207,9 @@ def main(mapp='sp/map.txt'):
 
             if key[pygame.K_LEFT]:
                 sprite.rect.x = sprite.rect.x - 12
-
+            if key[pygame.K_f]:
+                running = False
+                win()
             # отрабатываем касания мячика с другими объектами
             if pygame.sprite.collide_mask(sprite, sprite2):
                 col_sound.play()
@@ -339,45 +341,45 @@ def win():
         lvl += 1
         main(lvls[lvl])
 
-def obama():
-    global lvl
-    lvl = 5
-    size = 800, 600
-    screen = pygame.display.set_mode(size)
-    pygame.mouse.set_visible(False)
-    all_sprites = pygame.sprite.Group()
-    sprite = pygame.sprite.Sprite()
-    # все определяется в этой развилке:
-    sprite.image = pygame.image.load('sp/fin.png')
-    sprite.rect = sprite.image.get_rect()
-    sprite.rect.x = 0
-    all_sprites.add(sprite)
-    clock = pygame.time.Clock()
-    running = True
-    fps = 100
-    snd_dir = path.join(path.dirname(__file__), 'sp')
-    dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
-    while running:
-        dance.play()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
-                break
-            if event.type == pygame.KEYDOWN:
-                running = False
-        for i in range(len(bg3)):
-            sprite.image = pygame.image.load(i)
-            sprite.rect = sprite.image.get_rect()
-            sprite.rect.x = 0
-        all_sprites.draw(screen)
-        clock.tick(fps)
-        pygame.display.flip()
-
-    # а также тут. Если уровень последний, то мы не начинаем новую игру а просто закрываем окно
-    if lvl < 4:
-        lvl += 1
-        main(lvls[lvl])
+# def secret():
+#     global lvl
+#     lvl = 5
+#     size = 800, 600
+#     screen = pygame.display.set_mode(size)
+#     pygame.mouse.set_visible(False)
+#     all_sprites = pygame.sprite.Group()
+#     sprite = pygame.sprite.Sprite()
+#     # все определяется в этой развилке:
+#     sprite.image = pygame.image.load('sp/fin.png')
+#     sprite.rect = sprite.image.get_rect()
+#     sprite.rect.x = 0
+#     all_sprites.add(sprite)
+#     clock = pygame.time.Clock()
+#     running = True
+#     fps = 100
+#     snd_dir = path.join(path.dirname(__file__), 'sp')
+#     dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
+#     while running:
+#         dance.play()
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 running = False
+#                 pygame.quit()
+#                 break
+#             if event.type == pygame.KEYDOWN:
+#                 running = False
+#         for i in range(len(bg3)):
+#             sprite.image = pygame.image.load(bg3[i])
+#             sprite.rect = sprite.image.get_rect()
+#             sprite.rect.x = 0
+#         all_sprites.draw(screen)
+#         clock.tick(fps)
+#         pygame.display.flip()
+#
+#     # а также тут. Если уровень последний, то мы не начинаем новую игру а просто закрываем окно
+#     if lvl < 4:
+#         lvl += 1
+#         main(lvls[lvl])
 
 def gameover():
 
