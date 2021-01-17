@@ -51,7 +51,7 @@ for i in range(42):
     bg2.append(pygame.image.load("anim/tmp-" + str(i) + ".gif"))
 bg3 = []
 for i in range(49):
-    bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"
+    bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"))
 
 class Block(pygame.sprite.Sprite):
     # это класс кирпичика.
@@ -339,7 +339,7 @@ def win():
         lvl += 1
         main(lvls[lvl])
 
-def obama:
+def obama():
     global lvl
     lvl = 5
     size = 800, 600
