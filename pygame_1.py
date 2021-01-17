@@ -1,6 +1,7 @@
 import os
 import sys
 import pygame
+from os import path
 # Добро пожаловать в наш проект! Комментарии помогут вам разобраться с кодом
 # Данная зона кода является подготовительной. Тут определяются главные переменные и функции
 
@@ -48,6 +49,9 @@ bg = pygame.image.load("sp/backgroung.png")
 bg2 = []
 for i in range(42):
     bg2.append(pygame.image.load("anim/tmp-" + str(i) + ".gif"))
+bg3 = []
+for i in range(49):
+    bg3.append(pygame.image.load("obama/59030fcb6670428afaf84fc2725db8cbdOpD2YNLj7VDFKzy-" + str(i) + ".png"
 
 class Block(pygame.sprite.Sprite):
     # это класс кирпичика.
@@ -159,6 +163,9 @@ def main(mapp='sp/map.txt'):
         timer = 0
 
         # эта переменная отвечает за то, мячик сейчас ускорен или нет
+        snd_dir = path.join(path.dirname(__file__), 'sp')
+        collide_sound = pygame.mixer.Sound(path.join(snd_dir, 'sfx-4.mp3'))
+        col_sound = pygame.mixer.Sound(path.join(snd_dir, 'sfx-15.mp3'))
         a1 = False
         while running:
             for event in pygame.event.get():
@@ -203,12 +210,12 @@ def main(mapp='sp/map.txt'):
 
             # отрабатываем касания мячика с другими объектами
             if pygame.sprite.collide_mask(sprite, sprite2):
-
+                col_sound.play()
                 # отскок от ракетки
                 dy *= -1
                 dx *= 1
             if pygame.sprite.groupcollide(all_sprites2, all_sprites3, False, True):
-
+                collide_sound.play()
                 # отскок мяча от в нижней части блоков
                 if sprite2.rect.y == 76 or sprite2.rect.y == 154 or sprite2.rect.y == 232:
                     dy *= 1
@@ -217,7 +224,7 @@ def main(mapp='sp/map.txt'):
                     dy *= -1
                     dx *= 1
             if pygame.sprite.groupcollide(all_sprites2, all_sprites4, False, True):
-
+                collide_sound.play()
                 # касания мяча и усиленных блоков
                 a1 = True
 
@@ -293,7 +300,6 @@ def main(mapp='sp/map.txt'):
 
 
 def win():
-
     # эта функция одновременно отвечает за переход между уровнями и за концовку игры
     global lvl
     size = 800, 600
@@ -313,7 +319,10 @@ def win():
     clock = pygame.time.Clock()
     running = True
     fps = 100
+    snd_dir = path.join(path.dirname(__file__), 'sp')
+    dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
     while running:
+        dance.play()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -330,7 +339,45 @@ def win():
         lvl += 1
         main(lvls[lvl])
 
+def obama:
+    global lvl
+    lvl = 5
+    size = 800, 600
+    screen = pygame.display.set_mode(size)
+    pygame.mouse.set_visible(False)
+    all_sprites = pygame.sprite.Group()
+    sprite = pygame.sprite.Sprite()
+    # все определяется в этой развилке:
+    sprite.image = pygame.image.load('sp/fin.png')
+    sprite.rect = sprite.image.get_rect()
+    sprite.rect.x = 0
+    all_sprites.add(sprite)
+    clock = pygame.time.Clock()
+    running = True
+    fps = 100
+    snd_dir = path.join(path.dirname(__file__), 'sp')
+    dance = pygame.mixer.Sound(path.join(snd_dir, 'wow.mp3'))
+    while running:
+        dance.play()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                break
+            if event.type == pygame.KEYDOWN:
+                running = False
+        for i in range(len(bg3)):
+            sprite.image = pygame.image.load(i)
+            sprite.rect = sprite.image.get_rect()
+            sprite.rect.x = 0
+        all_sprites.draw(screen)
+        clock.tick(fps)
+        pygame.display.flip()
 
+    # а также тут. Если уровень последний, то мы не начинаем новую игру а просто закрываем окно
+    if lvl < 4:
+        lvl += 1
+        main(lvls[lvl])
 
 def gameover():
 
@@ -355,6 +402,7 @@ def gameover():
         all_sprites.draw(screen)
         clock.tick(fps)
         pygame.display.flip()
+    pygame.quit()
 
 
 # ну и при запуске игры мы запускаем стартовое меню
